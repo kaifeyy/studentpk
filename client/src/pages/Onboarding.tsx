@@ -234,15 +234,55 @@ export default function Onboarding() {
             )}
           </Card>
 
-          <Button 
-            type="submit" 
-            className="w-full gap-2" 
-            data-testid="button-complete-profile"
-            disabled={updateProfileMutation.isPending || createSchoolMutation.isPending}
-          >
-            {(updateProfileMutation.isPending || createSchoolMutation.isPending) ? "Processing..." : "Continue"}
-            <ChevronRight className="w-4 h-4" />
-          </Button>
+          <div className="space-y-4 w-full">
+            <Button 
+              type="submit" 
+              className="w-full gap-2" 
+              data-testid="button-complete-profile"
+              disabled={updateProfileMutation.isPending || createSchoolMutation.isPending}
+            >
+              {(updateProfileMutation.isPending || createSchoolMutation.isPending) ? "Processing..." : "Continue"}
+              <ChevronRight className="w-4 h-4" />
+            </Button>
+
+            {/* DEV ONLY: Test Login Button */}
+            <div className="relative">
+              <div className="absolute inset-0 flex items-center">
+                <span className="w-full border-t" />
+              </div>
+              <div className="relative flex justify-center text-xs uppercase">
+                <span className="bg-background px-2 text-muted-foreground">
+                  OR
+                </span>
+              </div>
+            </div>
+            
+            <Button 
+              type="button" 
+              variant="outline"
+              className="w-full gap-2 text-green-600 border-green-300 hover:bg-green-50"
+              onClick={async () => {
+                // Auto-login as test student
+                localStorage.setItem('test-user', 'student');
+                window.location.href = '/';
+              }}
+            >
+              🚀 Quick Test Login (Student)
+            </Button>
+
+            <Button 
+              type="button" 
+              variant="outline"
+              className="w-full gap-2 text-blue-600 border-blue-300 hover:bg-blue-50"
+              onClick={async () => {
+                // Auto-login as test admin
+                localStorage.setItem('test-user', 'admin');
+                window.location.href = '/';
+              }}
+            >
+              🏫 Quick Test Login (Admin)
+            </Button>
+          </div>
         </form>
       </div>
     </div>
