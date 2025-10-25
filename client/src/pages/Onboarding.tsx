@@ -52,12 +52,43 @@ export default function Onboarding() {
     },
   });
 
+  const createSchoolMutation = useMutation({
+    mutationFn: async (data: any) => {
+      return await apiRequest("POST", "/api/schools", data);
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["/api/auth/user"] });
+      setLocation("/");
+    },
+    onError: () => {
+      toast({
+        title: "Error",
+        description: "Failed to create school",
+        variant: "destructive",
+      });
+    },
+  });
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    updateProfileMutation.mutate({
-      role: isStudent ? "student" : "admin",
-      ...formData,
-    });
+    
+    if (isStudent) {
+      // Student: update profile with city, classGrade, board, schoolId
+      updateProfileMutation.mutate({
+        role: "student",
+        city: formData.city,
+        classGrade: formData.classGrade,
+        board: formData.board,
+        schoolId: formData.schoolId || undefined,
+      });
+    } else {
+      // Admin: create school first
+      createSchoolMutation.mutate({
+        name: formData.schoolName,
+        address: formData.address,
+        contactNumber: formData.contact,
+      });
+    }
   };
 
   return (
@@ -183,8 +214,13 @@ export default function Onboarding() {
             )}
           </Card>
 
-          <Button type="submit" className="w-full gap-2" data-testid="button-complete-profile">
-            Continue
+          <Button 
+            type="submit" 
+            className="w-full gap-2" 
+            data-testid="button-complete-profile"
+            disabled={updateProfileMutation.isPending || createSchoolMutation.isPending}
+          >
+            {(updateProfileMutation.isPending || createSchoolMutation.isPending) ? "Processing..." : "Continue"}
             <ChevronRight className="w-4 h-4" />
           </Button>
         </form>
