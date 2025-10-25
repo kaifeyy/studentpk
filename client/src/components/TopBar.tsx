@@ -10,7 +10,7 @@ interface TopBarProps {
   showNotifications?: boolean;
 }
 
-export function TopBar({ title = "CampusConnect", showSearch = true, showNotifications = true }: TopBarProps) {
+export function TopBar({ title = "Student Pakistan", showSearch = true, showNotifications = true }: TopBarProps) {
   const { theme, toggleTheme } = useTheme();
   const { toggleLanguage } = useLanguage();
 

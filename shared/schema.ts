@@ -1,4 +1,4 @@
-// CampusConnect Pakistan - Complete Database Schema
+// Student Pakistan - Complete Database Schema
 // Reference: Replit Auth Blueprint & Database Blueprint
 
 import { sql } from "drizzle-orm";
@@ -35,7 +35,7 @@ export const sessions = pgTable(
 // USER & SCHOOL TABLES
 // ============================================================================
 
-// Users table - Extended for CampusConnect Pakistan
+// Users table - Extended for Student Pakistan
 export const users = pgTable("users", {
   id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
   // Auth fields (from Replit Auth)
@@ -43,7 +43,7 @@ export const users = pgTable("users", {
   firstName: varchar("first_name"),
   lastName: varchar("last_name"),
   profileImageUrl: varchar("profile_image_url"),
-  // CampusConnect specific fields
+  // Student Pakistan specific fields
   role: varchar("role", { length: 20 }).notNull().default("student"), // 'student' or 'admin'
   schoolId: varchar("school_id"),
   city: varchar("city"),

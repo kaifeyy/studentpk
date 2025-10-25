@@ -66,7 +66,7 @@ export default function Home() {
 
   return (
     <div className="min-h-screen bg-background pb-20">
-      <TopBar title="CampusConnect" />
+      <TopBar title="Student Pakistan" />
       
       <div className="max-w-md mx-auto">
         {/* Feed Filters */}

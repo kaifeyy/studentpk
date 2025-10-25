@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useParams, useLocation } from "wouter";
+import { useRoute, useLocation } from "wouter";
 import { ChevronRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -18,14 +18,24 @@ import { apiRequest, queryClient } from "@/lib/queryClient";
 import { useToast } from "@/hooks/use-toast";
 
 export default function Onboarding() {
-  const params = useParams<{ role: string }>();
+  const [match, params] = useRoute<{ role: string }>("/onboarding/:role");
   const [, setLocation] = useLocation();
   const { user } = useAuth();
   const { toast } = useToast();
-  const isStudent = params.role === "student";
   
   // Debug logging
+  console.log("Onboarding match:", match);
   console.log("Onboarding params:", params);
+  console.log("Role from params:", params?.role);
+  
+  // If route doesn't match or no params, redirect to role selection
+  if (!match || !params?.role) {
+    console.log("No match or params, redirecting to role selection");
+    setLocation("/role-selection");
+    return null;
+  }
+  
+  const isStudent = params.role === "student";
   console.log("isStudent:", isStudent);
 
   const [formData, setFormData] = useState({

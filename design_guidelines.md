@@ -1,4 +1,4 @@
-# CampusConnect Pakistan - Design Guidelines
+# Student Pakistan - Design Guidelines
 
 ## Design Approach
 **Reference-Based Hybrid Approach**: Blend Twitter's social engagement, Google Classroom's academic structure, and Discord's community feel into a unified Pakistani student ecosystem. The design should feel youthful, modern, and professional simultaneously.
