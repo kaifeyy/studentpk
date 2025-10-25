@@ -1,0 +1,339 @@
+Build a complete functionality and system design for a cross-platform mobile app called “CampusConnect Pakistan.”
+
+The app is a social-academic platform for Pakistani students and schools.
+Users can either join as Students or register as School Admins.
+It should include authentication, role-based dashboards, feeds, chat, and school management tools.
+
+1. Core Concept
+
+Purpose: Connect students, teachers, and schools in one unified platform.
+
+Goals:
+
+Centralize communication between schools and students.
+
+Create a social feed for academic collaboration.
+
+Allow admins to manage classes, announcements, notes, and timetables.
+
+Build student communities around subjects, exams, and interests.
+
+Localization: Must support English + Urdu language toggle.
+
+Platform: Cross-platform mobile app (React Native or Flutter) + Web admin dashboard.
+
+2. User Roles & Authentication
+
+Two roles: Student and School Admin.
+
+Student Registration:
+
+Fields: Name, Email, Password, City, School, Class/Grade, Board (Matric/O Levels/etc.), Profile Picture.
+
+Option to join school using a unique “School Code.”
+
+Auto-generated Student ID.
+
+Admin Registration:
+
+Fields: School Name, Admin Name, Email, Password, Address, Logo, Contact Number.
+
+Must verify via email + optional government school registration number.
+
+Generates unique 6-character “School Join Code.”
+
+Social Login: Google sign-in for both roles.
+
+Authentication handled via Firebase Auth or JWT.
+
+Password reset and OTP verification system.
+
+3. App Flow Overview
+
+Launch → Onboarding → Role Selection (Student/Admin) → Sign-up/Login → Role Dashboard → Explore + Interact.
+
+4. Student-Side Functionality
+4.1 Home Feed
+
+Displays posts, announcements, and threads from:
+
+Joined School Channel.
+
+Public Campus Feed (across all schools).
+
+Feed can include:
+
+Text posts.
+
+Media (images, PDFs, videos, links).
+
+Announcements with school badges.
+
+Interactions:
+
+Like, comment, share, report.
+
+Threaded comment replies.
+
+Filter tabs: School | Public | Trending.
+
+Posts sorted by engagement and recency.
+
+4.2 Notes & Resources Section
+
+Organized by Subjects → Topics → Files.
+
+File types: PDF, DOCX, Images, PPT.
+
+Upload source: School Admins (verified) or Public (students).
+
+“Verified” label on school-provided resources.
+
+Features:
+
+Search bar (by keyword, subject, or uploader).
+
+Download button.
+
+View count, likes, and uploader info.
+
+AI-powered summarizer (future phase).
+
+4.3 School Dashboard (for Students)
+
+View:
+
+Announcements (sorted by latest).
+
+Time table grid view (Mon–Sat).
+
+Class schedules with time and subject.
+
+Upcoming online class buttons (integrated with Meet/Zoom link).
+
+Receive push notifications for:
+
+New circulars.
+
+Timetable updates.
+
+Assignment uploads.
+
+School holidays.
+
+4.4 Social Interaction
+
+Ability to post in:
+
+Public Feed (like Twitter threads).
+
+Study Groups (like Discord channels).
+
+Mentions (@username), hashtags (#MathNotes).
+
+Notifications when mentioned, replied, or liked.
+
+Follow/unfollow classmates or users from other schools.
+
+Privacy options: Public / School-only / Private.
+
+4.5 Profile
+
+Fields: Profile Picture, Name, School, Class, Bio, Interests.
+
+Tabs:
+
+Posts
+
+Notes Shared
+
+Groups Joined
+
+Edit Profile button.
+
+Option to toggle visibility (private/public).
+
+4.6 Search / Discovery
+
+Search bar for:
+
+Users (by name or school).
+
+Notes (by subject or keyword).
+
+Schools (by name or city).
+
+Trending section with popular hashtags.
+
+5. School Admin Functionality
+5.1 Admin Dashboard
+
+Overview cards:
+
+Total Students
+
+Classes Managed
+
+Announcements Made
+
+Upcoming Online Classes
+
+Access to tabs:
+
+Announcements
+
+Timetable
+
+Notes Upload
+
+Classes & Subjects
+
+Analytics (v2)
+
+5.2 Announcements Module
+
+Create new announcement (text, image, or PDF).
+
+Tag class/section (e.g., “Grade 9 Science”).
+
+Post visible to all students in that school channel.
+
+Pin important announcements to top.
+
+Auto timestamp and admin signature.
+
+5.3 Timetable Module
+
+Drag-and-drop builder (Days × Periods).
+
+Add subject, teacher, and classroom.
+
+Option to link a Google Meet/Zoom URL.
+
+Students can view only their class timetable.
+
+5.4 Notes Upload Module
+
+Upload PDFs, Docs, or Images by subject.
+
+Tag them by grade and subject.
+
+Students receive notifications when uploaded.
+
+File stored on Firebase/Cloud Storage.
+
+5.5 Class & Subject Management
+
+Create new class (Grade, Section).
+
+Assign subjects and teachers.
+
+Add/remove students manually or via join requests.
+
+Future integration: Attendance and grading (v2).
+
+5.6 Online Class Integration
+
+Schedule meeting link per class period.
+
+Push reminder notifications 10 minutes before class.
+
+Link opens directly in Meet/Zoom in-app webview.
+
+5.7 Analytics (v2)
+
+Dashboard metrics: Student logins, resource downloads, active hours.
+
+Engagement heatmap.
+
+Option to export reports (CSV).
+
+6. Public Campus Feed
+
+Unified, national-level feed where all students can post.
+
+Post types:
+
+Study tips.
+
+Academic news.
+
+Memes (moderated).
+
+Hashtag-based discovery (#FScPhysics, #BISE2025).
+
+Upvote/comment/share system.
+
+Moderation via AI + community flagging.
+
+7. Notifications System
+
+Real-time push notifications for:
+
+New announcements.
+
+Replies, mentions, or likes.
+
+Class or timetable updates.
+
+Delivered via Firebase Cloud Messaging.
+
+In-app notification center (bell icon).
+
+8. Security & Data Rules
+
+Role-based access (Admin cannot access other schools).
+
+Posts and files filtered for profanity or NSFW content.
+
+Secure file storage with URL token expiration.
+
+User data encrypted and compliant with Pakistan’s PECA guidelines.
+
+9. Backend Architecture
+
+Database: Firebase Firestore or Supabase (NoSQL).
+
+Storage: Firebase Storage for media and files.
+
+Auth: Firebase Authentication or Supabase Auth.
+
+Real-time Feeds: Firestore listeners or WebSocket layer.
+
+Serverless Functions: Cloud Functions for:
+
+Notifications
+
+Timetable updates
+
+Feed moderation
+
+Hosting: Vercel / Netlify for dashboard.
+
+10. Non-Functional Requirements
+
+Performance: Load feed under 2 seconds.
+
+Offline Mode: Read-only access to cached notes/timetable.
+
+Scalability: Handle 50k concurrent users in phase 1.
+
+Localization: All UI strings available in English and Urdu.
+
+Accessibility: Large text support, voice-over labels.
+
+Theme Mode: Light + Dark mode toggle.
+
+11. Future Extensions (v2+)
+
+Direct Messaging and Group Chats.
+
+AI study assistant (summaries, MCQ generation).
+
+Marketplace for paid notes.
+
+University application tracker.
+
+Internship board.
+
+Gamification: XP points, badges for contributions.

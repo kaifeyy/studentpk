@@ -1,0 +1,107 @@
+The app should have a clean, youthful aesthetic with a modern minimal UI. Use a blue-green academic color palette with soft gradients, rounded cards, and subtle shadows. The feel should be professional yet social, like a mix of Twitter, Google Classroom, and Discord.
+
+Overall Concept
+
+A student ecosystem where users can either join as a Student or register as a School Admin.
+Students can view notes, announcements, and social feeds.
+School admins can manage classes, timetables, and official announcements.
+
+App Flow / Key Screens
+
+1. Onboarding Screen
+
+App logo and tagline: “Pakistan’s Digital Campus.”
+
+Two buttons: “Join as Student” and “Join as School Admin.”
+
+Clean, card-style layout with illustrations of students and teachers.
+
+2. Sign-up / Login
+
+Google and email sign-in.
+
+Fields: Name, School, City, Class (for students) OR School Name, Address (for admins).
+
+3. Home Feed (for Students)
+
+Scrollable feed like Twitter.
+
+Each post can be: Announcement, Study Thread, Meme, or Resource.
+
+Tabs at top: “School”, “Public Feed”, “Trending.”
+
+Like, comment, share buttons below posts.
+
+4. School Dashboard (for Admins)
+
+Clean cards for:
+
+“Announcements”
+
+“Timetable”
+
+“Upload Notes”
+
+“Online Classes”
+
+Floating “+” button to create new updates.
+
+Graph or analytics widget (v2 placeholder).
+
+5. Notes Section
+
+Grid or list of subject cards (Math, English, Physics, etc.).
+
+Each opens a folder of PDFs and images.
+
+“Upload” button for admin; “Download” for student.
+
+6. Timetable View
+
+Weekly grid format, color-coded subjects.
+
+Tap on a class → open details + “Join Class” (Google Meet link).
+
+7. Public Campus Feed
+
+Feeds from all schools.
+
+Hashtags (#MatricNotes, #Elections, #ExamTips).
+
+Trending topics sidebar.
+
+8. Profile Page
+
+Profile photo, name, school, bio, grade.
+
+Tabs: Posts | Notes | Joined Channels.
+
+“Follow” and “Message” buttons.
+
+9. Notifications
+
+Compact list view of announcements, mentions, or class updates.
+
+10. Bottom Navigation Bar
+
+4 icons: Home 🏠 | Notes 📚 | School 🏫 | Profile 👤
+
+Floating action button for posting new thread or announcement.
+
+Style Guide
+
+Typography: Rounded sans-serif (like Inter or Poppins).
+
+Color Palette:
+
+Primary: #1976D2 (academic blue)
+
+Secondary: #4CAF50 (modern green)
+
+Accent: #F5F7FA (background), #E0F7FA (cards)
+
+Design Style: Soft shadows, minimal gradients, rounded 16px corners.
+
+Iconography: Simple line icons (Lucide or Feather style).
+
+Micro-interactions: Smooth card slide-ins, button ripples, subtle hover states.
