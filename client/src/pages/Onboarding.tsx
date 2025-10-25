@@ -23,6 +23,10 @@ export default function Onboarding() {
   const { user } = useAuth();
   const { toast } = useToast();
   const isStudent = params.role === "student";
+  
+  // Debug logging
+  console.log("Onboarding params:", params);
+  console.log("isStudent:", isStudent);
 
   const [formData, setFormData] = useState({
     schoolId: "",
@@ -37,16 +41,19 @@ export default function Onboarding() {
 
   const updateProfileMutation = useMutation({
     mutationFn: async (data: any) => {
+      console.log("Updating profile with data:", data);
       return await apiRequest("PATCH", "/api/user/profile", data);
     },
-    onSuccess: () => {
+    onSuccess: (data) => {
+      console.log("Profile updated successfully:", data);
       queryClient.invalidateQueries({ queryKey: ["/api/auth/user"] });
       setLocation("/");
     },
-    onError: () => {
+    onError: (error: any) => {
+      console.error("Profile update error:", error);
       toast({
         title: "Error",
-        description: "Failed to update profile",
+        description: error?.message || "Failed to update profile",
         variant: "destructive",
       });
     },
@@ -54,16 +61,19 @@ export default function Onboarding() {
 
   const createSchoolMutation = useMutation({
     mutationFn: async (data: any) => {
+      console.log("Creating school with data:", data);
       return await apiRequest("POST", "/api/schools", data);
     },
-    onSuccess: () => {
+    onSuccess: (data) => {
+      console.log("School created successfully:", data);
       queryClient.invalidateQueries({ queryKey: ["/api/auth/user"] });
       setLocation("/");
     },
-    onError: () => {
+    onError: (error: any) => {
+      console.error("School creation error:", error);
       toast({
         title: "Error",
-        description: "Failed to create school",
+        description: error?.message || "Failed to create school",
         variant: "destructive",
       });
     },

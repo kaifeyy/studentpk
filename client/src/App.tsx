@@ -1,5 +1,5 @@
 // Reference: Replit Auth Blueprint
-import { Switch, Route } from "wouter";
+import { Switch, Route, useLocation, Redirect } from "wouter";
 import { queryClient } from "./lib/queryClient";
 import { QueryClientProvider } from "@tanstack/react-query";
 import { Toaster } from "@/components/ui/toaster";
@@ -27,13 +27,14 @@ function Router() {
         <Route path="/" component={Landing} />
       ) : (
         <>
-          {/* Check if user needs to complete profile */}
-          {!user?.role && <Route path="/" component={RoleSelection} />}
-          {user?.role && !user?.city && (
-            <Route path="/" component={() => <Onboarding />} />
-          )}
+          {/* Onboarding routes - accessible before role/city is set */}
+          <Route path="/role-selection" component={RoleSelection} />
+          <Route path="/onboarding/:role" component={Onboarding} />
           
-          {/* Main App Routes */}
+          {/* Redirect to role selection if no role */}
+          {!user?.role && <Route path="/" component={RoleSelection} />}
+          
+          {/* Main App Routes - only accessible after onboarding */}
           {user?.role && user?.city && (
             <>
               <Route path="/" component={Home} />
@@ -42,9 +43,12 @@ function Router() {
               <Route path="/profile" component={Profile} />
               <Route path="/search" component={Search} />
               <Route path="/notifications" component={Notifications} />
-              <Route path="/role-selection" component={RoleSelection} />
-              <Route path="/onboarding/:role" component={Onboarding} />
             </>
+          )}
+          
+          {/* Redirect to onboarding if role set but no city */}
+          {user?.role && !user?.city && (
+            <Route path="/" component={() => <Redirect to={`/onboarding/${user.role}`} />} />
           )}
         </>
       )}
