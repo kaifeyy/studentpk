@@ -30,6 +30,9 @@ export default function Onboarding() {
     classGrade: "",
     board: "",
     bio: "",
+    schoolName: "",
+    address: "",
+    contact: "",
   });
 
   const updateProfileMutation = useMutation({
@@ -146,6 +149,8 @@ export default function Onboarding() {
                   <Label htmlFor="schoolName">School Name</Label>
                   <Input
                     id="schoolName"
+                    value={formData.schoolName}
+                    onChange={(e) => setFormData({ ...formData, schoolName: e.target.value })}
                     placeholder="e.g., City Model School"
                     required
                     data-testid="input-school-name"
@@ -156,6 +161,8 @@ export default function Onboarding() {
                   <Label htmlFor="address">Address</Label>
                   <Input
                     id="address"
+                    value={formData.address}
+                    onChange={(e) => setFormData({ ...formData, address: e.target.value })}
                     placeholder="Complete school address"
                     data-testid="input-address"
                   />
@@ -166,6 +173,8 @@ export default function Onboarding() {
                   <Input
                     id="contact"
                     type="tel"
+                    value={formData.contact}
+                    onChange={(e) => setFormData({ ...formData, contact: e.target.value })}
                     placeholder="+92 XXX XXXXXXX"
                     data-testid="input-contact"
                   />
