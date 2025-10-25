@@ -163,6 +163,8 @@ export class OnboardingService {
       lastName?: string;
       avatarUrl?: string;
       city?: string;
+      dateOfBirth?: Date;
+      isOnboardingComplete?: boolean;
     }
   ) {
     const [user] = await db

@@ -161,6 +161,116 @@ export class OnboardingController {
     }
   }
 
+  // Complete student onboarding
+  static async completeStudentOnboarding(req: Request, res: Response) {
+    try {
+      // @ts-ignore - auth middleware adds user to request
+      const userId = req.user.userId;
+      
+      const {
+        firstName,
+        lastName,
+        age,
+        city,
+        educationType,
+        grade,
+        boardId,
+        subjects,
+        bio
+      } = req.body;
+
+      // Update user basic info and mark onboarding as complete
+      await OnboardingService.updateUserProfile(userId, {
+        firstName,
+        lastName,
+        city,
+        dateOfBirth: new Date(new Date().getFullYear() - age, 0, 1), // Approximate birth date
+        isOnboardingComplete: true,
+      });
+
+      // Create student profile
+      const profile = await OnboardingService.createStudentProfile(userId, {
+        dateOfBirth: new Date(new Date().getFullYear() - age, 0, 1),
+        classGrade: grade,
+        educationType,
+        boardId,
+        bio,
+        subjectIds: subjects || [],
+      });
+
+      return ApiResponse.success(res, { profile }, 'Student onboarding completed successfully');
+    } catch (error) {
+      console.error('Error completing student onboarding:', error);
+      return ApiResponse.error(res, 'Failed to complete student onboarding');
+    }
+  }
+
+  // Complete admin onboarding
+  static async completeAdminOnboarding(req: Request, res: Response) {
+    try {
+      // @ts-ignore - auth middleware adds user to request
+      const userId = req.user.userId;
+      
+      const {
+        schoolName,
+        registrationNumber,
+        establishedYear,
+        principalName,
+        email,
+        contactNumber,
+        website,
+        address,
+        city,
+        educationLevel,
+        genderType,
+        classesOffered
+      } = req.body;
+
+      // Handle file uploads
+      const files = req.files as { [fieldname: string]: Express.Multer.File[] };
+      
+      // Upload registration proof
+      let registrationProofUrl: string | undefined;
+      if (files.registrationProof?.[0]) {
+        registrationProofUrl = await uploadToS3(files.registrationProof[0]);
+      }
+      
+      // Upload logo if provided
+      let logoUrl: string | undefined;
+      if (files.schoolLogo?.[0]) {
+        logoUrl = await uploadToS3(files.schoolLogo[0]);
+      }
+
+      // Create school
+      const school = await OnboardingService.createSchool(userId, {
+        name: schoolName,
+        registrationNumber,
+        establishedYear: parseInt(establishedYear),
+        principalName,
+        email,
+        contactNumber,
+        website: website || undefined,
+        address,
+        city,
+        educationLevel,
+        genderType,
+        registrationProof: registrationProofUrl || '',
+        logo: logoUrl,
+      });
+
+      // Update user as onboarding complete
+      await OnboardingService.updateUserProfile(userId, {
+        isOnboardingComplete: true,
+        city,
+      });
+
+      return ApiResponse.success(res, { school }, 'Admin onboarding completed successfully');
+    } catch (error) {
+      console.error('Error completing admin onboarding:', error);
+      return ApiResponse.error(res, 'Failed to complete admin onboarding');
+    }
+  }
+
   // Check username availability
   static async checkUsername(req: Request, res: Response) {
     try {

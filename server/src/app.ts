@@ -5,6 +5,7 @@ import morgan from 'morgan';
 import { config } from './config/env';
 import authRoutes from './routes/auth.routes';
 import onboardingRoutes from './routes/onboarding.routes';
+import boardsRoutes from './routes/boards.routes';
 import { ApiResponse } from './utils/apiResponse';
 import path from 'path';
 import multer from 'multer';
@@ -36,6 +37,7 @@ const upload = multer({
 // Routes
 app.use('/api/auth', authRoutes);
 app.use('/api/onboarding', onboardingRoutes);
+app.use('/api/boards', boardsRoutes);
 
 // Serve uploaded files in development
 if (process.env.NODE_ENV === 'development') {

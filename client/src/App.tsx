@@ -21,21 +21,41 @@ import NotFound from "@/pages/not-found";
 function Router() {
   const { isAuthenticated, isLoading, user } = useAuth();
 
+  // Show loading state while checking authentication
+  if (isLoading) {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-primary/10 via-background to-secondary/10 flex items-center justify-center">
+        <div className="text-center space-y-4">
+          <div className="w-8 h-8 border-2 border-primary border-t-transparent rounded-full animate-spin mx-auto" />
+          <p className="text-muted-foreground">Loading...</p>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <Switch>
-      {isLoading || !isAuthenticated ? (
+      {!isAuthenticated ? (
+        // Not authenticated - show landing/auth page
         <Route path="/" component={Landing} />
       ) : (
         <>
-          {/* Onboarding routes - accessible before role/city is set */}
+          {/* Onboarding routes - accessible after authentication */}
           <Route path="/role-selection" component={RoleSelection} />
           <Route path="/onboarding/:role" component={Onboarding} />
           
-          {/* Redirect to role selection if no role */}
-          {!user?.role && <Route path="/" component={RoleSelection} />}
-          
-          {/* Main App Routes - only accessible after onboarding */}
-          {user?.role && user?.city && (
+          {/* Check if user needs onboarding */}
+          {!user?.isOnboardingComplete ? (
+            // User needs onboarding
+            <>
+              {!user?.role ? (
+                <Route path="/" component={RoleSelection} />
+              ) : (
+                <Route path="/" component={() => <Redirect to={`/onboarding/${user.role}`} />} />
+              )}
+            </>
+          ) : (
+            // User is fully onboarded - show main app
             <>
               <Route path="/" component={Home} />
               <Route path="/notes" component={Notes} />
@@ -44,11 +64,6 @@ function Router() {
               <Route path="/search" component={Search} />
               <Route path="/notifications" component={Notifications} />
             </>
-          )}
-          
-          {/* Redirect to onboarding if role set but no city */}
-          {user?.role && !user?.city && (
-            <Route path="/" component={() => <Redirect to={`/onboarding/${user.role}`} />} />
           )}
         </>
       )}

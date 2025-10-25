@@ -34,4 +34,11 @@ router.post(
   OnboardingController.registerSchool
 );
 
+// New simplified onboarding endpoints
+router.post('/student/complete', anyAuth, OnboardingController.completeStudentOnboarding);
+router.post('/admin/complete', anyAuth, upload.fields([
+  { name: 'registrationProof', maxCount: 1 },
+  { name: 'schoolLogo', maxCount: 1 }
+]), OnboardingController.completeAdminOnboarding);
+
 export default router;

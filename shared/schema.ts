@@ -38,11 +38,20 @@ export const sessions = pgTable(
 // Users table - Extended for Student Pakistan
 export const users = pgTable("users", {
   id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
-  // Auth fields (from Replit Auth)
+  // Core auth fields
+  username: varchar("username", { length: 50 }).notNull().unique(),
   email: varchar("email").unique(),
+  password: varchar("password").notNull(),
+  // Security questions (optional)
+  securityQuestion: varchar("security_question"),
+  securityAnswer: varchar("security_answer"),
+  // Profile fields
   firstName: varchar("first_name"),
   lastName: varchar("last_name"),
   profileImageUrl: varchar("profile_image_url"),
+  dateOfBirth: timestamp("date_of_birth"),
+  gender: varchar("gender", { length: 10 }), // 'male', 'female', 'other'
+  phoneNumber: varchar("phone_number"),
   // Student Pakistan specific fields
   role: varchar("role", { length: 20 }).notNull().default("student"), // 'student' or 'admin'
   schoolId: varchar("school_id"),
@@ -53,6 +62,8 @@ export const users = pgTable("users", {
   interests: text("interests").array(),
   isPublic: boolean("is_public").notNull().default(true),
   language: varchar("language", { length: 10 }).notNull().default("en"), // 'en' or 'ur'
+  // Onboarding completion flags
+  isOnboardingComplete: boolean("is_onboarding_complete").notNull().default(false),
   createdAt: timestamp("created_at").defaultNow(),
   updatedAt: timestamp("updated_at").defaultNow(),
 });
